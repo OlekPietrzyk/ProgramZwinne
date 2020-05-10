@@ -1,0 +1,360 @@
+Index: src/main/java/com/project/dao/ProjectDaoImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/project/dao/ProjectDaoImpl.java	(revision 7da515b1ad1925b9225350e57f1d532baf3feb75)
++++ src/main/java/com/project/dao/ProjectDaoImpl.java	(date 1589139486624)
+@@ -18,7 +18,7 @@
+     @Override
+     public Projekt findById(int id) {
+         List resultList = entityManager.createNamedQuery("Projekt.getProjektById").setParameter("id", id).getResultList();
+-        return resultList!=null ? (Projekt) resultList.get(0) : null;
++        return !resultList.isEmpty() ? (Projekt) resultList.get(0) : null;
+     }
+ 
+     @Override
+Index: src/main/resources/templates/projectView.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/resources/templates/projectView.html	(revision 7da515b1ad1925b9225350e57f1d532baf3feb75)
++++ src/main/resources/templates/projectView.html	(date 1589136698046)
+@@ -72,7 +72,7 @@
+                             <td class="col-2" th:text="${project.dataOddania != null ? #dates.format(project.dataOddania, 'dd-MM-yyyy') : 'Brak informacji'}">1</td>
+                             <td class="col-2">
+ 
+-                                <a th:href="@{'/viewTask'}" class="edit" title="Zadania" data-toggle="tooltip"><i class="material-icons">work</i></a>
++                                <a th:href="@{'/taskView/' + ${project.projektId}}" class="edit" title="Zadania" data-toggle="tooltip"><i class="material-icons">work</i></a>
+                                 <a th:href="@{'/addProject/' + ${project.projektId}}" class="edit" title="Edycja" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                                 <a th:href="@{'/deleteProject/' + ${project.projektId}}" class="edit" title="Usuń" data-toggle="tooltip"><i class="material-icons">delete</i></a>
+ 
+@@ -82,12 +82,8 @@
+                         </tbody>
+                     </table>
+ 
+-
+                     <a  th:href="@{'/addProject'}" class="btn btn-primary buttonExport"><i class="material-icons">&#xE24D;</i> <span>Dodaj projekt</span></a>
+ 
+-
+-
+-
+                 </div>
+ 
+             </div>
+Index: src/main/resources/templates/taskView.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/resources/templates/taskView.html	(date 1589139262241)
++++ src/main/resources/templates/taskView.html	(date 1589139262241)
+@@ -0,0 +1,96 @@
++<!DOCTYPE html>
++<html lang="pl" xmlns:th="http://www.thymeleaf.org">
++
++<head>
++    <div th:replace="fragments/header :: header"/>
++    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
++
++    <link rel="stylesheet" type="text/css" th:href="@{/static/css/datatable/datatables.min.css}"/>
++    <script type="text/javascript" th:src="@{/static/js/datatable/datatables.min.js}"></script>
++
++
++    <link rel="stylesheet" type="text/css" th:href="@{/static/css/viewStyle.css}"/>
++    <script type="text/javascript" th:src="@{/static/js/datatable/taskViewDataTable.js}"></script>
++</head>
++
++
++<body>
++<div th:replace="fragments/header :: body"/>
++
++
++<div class="contentBox">
++    <div class="layer">
++        <div class="container">
++            <div class="white-panel">
++                <div class="margins">
++                    <ul style="padding-top: 1cm"></ul>
++
++                    <div th:if="${param.modify}">
++                        <div class="alert alert-info">
++                            Poprawnie zmodyfikowano zadanie.
++                        </div>
++                    </div>
++
++                    <div th:if="${param.create}">
++                        <div class="alert alert-info">
++                            Poprawnie utworzono nowe zadanie.
++                        </div>
++                    </div>
++
++                    <div th:if="${param.remove}">
++                        <div class="alert alert-info">
++                            Poprawnie usunięto zadanie.
++                        </div>
++                    </div>
++
++                    <div class="table-title">
++                        <div class="row">
++                            <div class="col-sm-5">
++                                <h2 class="mt-5">Lista zadań</h2>
++                            </div>
++                        </div>
++                    </div>
++                    <table id="myTable" class="table table-hover table-sm">
++                        <thead>
++                        <tr>
++                            <th class="col-1" scope="col">Id</th>
++                            <th class="col-2" scope="col">Nazwa</th>
++                            <th class="col-4" scope="col">Opis</th>
++                            <th class="col-2" scope="col">Data utworzenia</th>
++                            <th class="col-2" scope="col">Kolejność</th>
++                            <th class="col-1" scope="col"></th>
++
++                        </tr>
++                        </thead>
++
++                        <tbody>
++                        <tr th:each="task: ${tasks}">
++                            <td class="col-1" th:text="${task.zadanieId}">1</td>
++                            <td class="col-2" th:text="${task.nazwa}">2</td>
++                            <td class="col-4" th:text="${task.opis}">3</td>
++                            <td class="col-2" th:text="${task.dataczasDodania != null ? #dates.format(task.dataczasDodania, 'dd-MM-yyyy') : 'Brak informacji'}">4</td>
++                            <td class="col-2" th:text="${task.kolejnosc}">1</td>
++                            <td class="col-1">
++
++                                <a th:href="@{'/addTask/' + ${idProject} + '/' + ${task.zadanieId}}" class="edit" title="Edycja" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
++                                <a th:href="@{'/deleteTask/'+ ${idProject} + '/' + ${task.zadanieId}}" class="edit" title="Usuń" data-toggle="tooltip"><i class="material-icons">delete</i></a>
++
++                            </td>
++
++                        </tr>
++                        </tbody>
++                    </table>
++
++                    <a  th:href="@{'/addTask/' + ${idProject}}" class="btn btn-primary buttonExport"><i class="material-icons">&#xE24D;</i> <span>Dodaj zadanie</span></a>
++
++                </div>
++
++            </div>
++
++        </div>
++    </div>
++
++</div>
++</body>
++
++</html>
+\ No newline at end of file
+Index: src/main/java/com/project/dao/ZadanieDaoImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/project/dao/ZadanieDaoImpl.java	(revision 7da515b1ad1925b9225350e57f1d532baf3feb75)
++++ src/main/java/com/project/dao/ZadanieDaoImpl.java	(date 1589136034466)
+@@ -45,4 +45,9 @@
+     public List<Zadanie> findByName(String name) {
+         return entityManager.createNamedQuery("Zadanie.getByName").setParameter("name", name).getResultList();
+     }
++
++    @Override
++    public List<Zadanie> findByIdProject(int id) {
++        return entityManager.createNamedQuery("Zadanie.getZadanieByIdProject").setParameter("id", id).getResultList();
++    }
+ }
+Index: src/main/resources/static/js/datatable/taskViewDataTable.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/resources/static/js/datatable/taskViewDataTable.js	(date 1589138195421)
++++ src/main/resources/static/js/datatable/taskViewDataTable.js	(date 1589138195421)
+@@ -0,0 +1,24 @@
++$(document).ready(function () {
++
++    var oTable = $('#myTable');
++
++    oTable.dataTable( {
++
++        "oLanguage": {
++            "sLengthMenu": "Wyświetl po _MENU_ zadań",
++            "sSearch": "Wyszukaj:",
++            "sInfo":"Wyświetlono od _START_ do _END_ z _TOTAL_ zadań",
++            "sInfoEmpty":"Nie znaleziono",
++            "sInfoFiltered": "( Wyszukiwano w _MAX_ rekordach )",
++            "sZeroRecords": "Nie znaleziono dopasowań",
++            "sEmptyTable": "Brak zadań",
++            "oPaginate": {
++                "sPrevious": "Poprzednia strona",
++                "sNext": "Następna strona"
++            }
++        }
++
++    }).$('tr').css('backgroundColor', 'transparent ' );
++
++    ;
++});
+\ No newline at end of file
+Index: src/main/java/com/project/controller/TaskViewController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/project/controller/TaskViewController.java	(date 1589139546362)
++++ src/main/java/com/project/controller/TaskViewController.java	(date 1589139546362)
+@@ -0,0 +1,43 @@
++package com.project.controller;
++
++import com.project.dao.ZadanieDao;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.stereotype.Controller;
++import org.springframework.ui.Model;
++import org.springframework.web.bind.annotation.PathVariable;
++import org.springframework.web.bind.annotation.RequestMapping;
++import org.springframework.web.servlet.ModelAndView;
++
++import java.util.Optional;
++
++
++@Controller
++public class TaskViewController {
++
++    @Autowired
++    private ZadanieDao zadanieDao;
++
++    @RequestMapping("/taskView/{id}")
++    public ModelAndView taskView(@PathVariable("id") Optional<String> id){
++
++        ModelAndView modelAndView = new ModelAndView();
++        modelAndView.addObject("tasks", zadanieDao.findByIdProject(Integer.valueOf(id.get())));
++        modelAndView.addObject("idProject", id.get());
++
++        modelAndView.setViewName("taskView");
++        return modelAndView;
++
++    }
++
++
++    @RequestMapping("/deleteTask/{idProject}/{id}")
++    public String projectView(Model model, @PathVariable("idProject") Optional<String> idProject, @PathVariable("id") Optional<String> id){
++
++        Object byId = zadanieDao.findById(Integer.parseInt(id.get()));
++        zadanieDao.remove(byId);
++
++        return "redirect:/taskView/"+ idProject.get() +"?remove=true";
++    }
++
++
++}
+Index: src/main/java/com/project/model/Zadanie.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/project/model/Zadanie.java	(revision 7da515b1ad1925b9225350e57f1d532baf3feb75)
++++ src/main/java/com/project/model/Zadanie.java	(date 1589138071315)
+@@ -1,8 +1,8 @@
+ package com.project.model;
+ 
+ import javax.persistence.*;
++import java.util.Date;
+ 
+-import java.time.LocalDateTime;
+ import org.hibernate.annotations.CreationTimestamp;
+ 
+ @Entity
+@@ -11,6 +11,7 @@
+         @NamedQuery(name = "Zadanie.getByName", query = "SELECT z FROM Zadanie z WHERE z.nazwa =:name"),
+         @NamedQuery(name = "Zadanie.getAll", query = "SELECT z FROM Zadanie z"),
+         @NamedQuery(name = "Zadanie.getZadanieById", query = "SELECT z FROM Zadanie z WHERE z.zadanieId =:id"),
++        @NamedQuery(name = "Zadanie.getZadanieByIdProject", query = "SELECT z FROM Zadanie z WHERE z.projekt.projektId =:id"),
+ })
+ public class Zadanie {
+ 
+@@ -34,7 +35,7 @@
+ 
+     @CreationTimestamp
+     @Column(name = "dataczas_dodania", nullable = false, updatable = false)
+-    private LocalDateTime dataczasDodania;
++    private Date dataczasDodania;
+ 
+     public Integer getZadanieId() {
+         return zadanieId;
+@@ -76,11 +77,11 @@
+         this.opis = opis;
+     }
+ 
+-    public LocalDateTime getDataczasDodania() {
++    public Date getDataczasDodania() {
+         return dataczasDodania;
+     }
+ 
+-    public void setDataczasDodania(LocalDateTime dataczasDodania) {
++    public void setDataczasDodania(Date dataczasDodania) {
+         this.dataczasDodania = dataczasDodania;
+     }
+ }
+Index: src/main/java/com/project/dao/StudentDaoImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/project/dao/StudentDaoImpl.java	(revision 7da515b1ad1925b9225350e57f1d532baf3feb75)
++++ src/main/java/com/project/dao/StudentDaoImpl.java	(date 1589139503006)
+@@ -18,7 +18,7 @@
+     @Override
+     public Student findById(int id) {
+         List resultList = entityManager.createNamedQuery("Student.getStudentById").setParameter("id", id).getResultList();
+-        return resultList!=null ? (Student) resultList.get(0) : null;
++        return !resultList.isEmpty() ? (Student) resultList.get(0) : null;
+     }
+ 
+     @Override
+Index: src/main/java/com/project/dao/ZadanieDao.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/project/dao/ZadanieDao.java	(revision 7da515b1ad1925b9225350e57f1d532baf3feb75)
++++ src/main/java/com/project/dao/ZadanieDao.java	(date 1589135967696)
+@@ -8,4 +8,5 @@
+ 
+     public List<T> findByName(String name);
+ 
++    public List<T> findByIdProject(int id);
+ }
+Index: src/main/java/com/project/model/Projekt.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/project/model/Projekt.java	(revision 7da515b1ad1925b9225350e57f1d532baf3feb75)
++++ src/main/java/com/project/model/Projekt.java	(date 1589136435040)
+@@ -33,7 +33,7 @@
+     @Column(name = "dataczas_utworzenia", nullable = false, updatable = false)
+     private Date dataczasUtworzenia;
+ 
+-    @Column (name = "data_oddania", nullable = false, updatable = false)
++    @Column (name = "data_oddania", nullable = false)
+     private Date dataOddania;
+ 
+     @UpdateTimestamp
+Index: src/main/java/com/project/model/Student.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/project/model/Student.java	(revision 7da515b1ad1925b9225350e57f1d532baf3feb75)
++++ src/main/java/com/project/model/Student.java	(date 1589137331699)
+@@ -21,7 +21,7 @@
+     @Column (nullable = false, length = 100)
+     private String nazwisko;
+ 
+-    @Column (name = "nr_indeksu", nullable = false, length = 20)
++    @Column (name = "nr_indeksu", nullable = false, length = 20, unique = true)
+     private String nrIndeksu;
+ 
+     @Column (nullable = false, length = 50)

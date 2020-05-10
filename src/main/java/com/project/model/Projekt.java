@@ -33,7 +33,7 @@ public class Projekt {
     @Column(name = "dataczas_utworzenia", nullable = false, updatable = false)
     private Date dataczasUtworzenia;
 
-    @Column (name = "data_oddania", nullable = false, updatable = false)
+    @Column (name = "data_oddania", nullable = false)
     private Date dataOddania;
 
     @UpdateTimestamp

@@ -18,7 +18,7 @@ public class ProjectDaoImpl implements ProjectDao<Projekt, Integer> {
     @Override
     public Projekt findById(int id) {
         List resultList = entityManager.createNamedQuery("Projekt.getProjektById").setParameter("id", id).getResultList();
-        return resultList!=null ? (Projekt) resultList.get(0) : null;
+        return !resultList.isEmpty() ? (Projekt) resultList.get(0) : null;
     }
 
     @Override

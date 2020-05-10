@@ -45,4 +45,9 @@ public class ZadanieDaoImpl implements ZadanieDao<Zadanie, Integer>{
     public List<Zadanie> findByName(String name) {
         return entityManager.createNamedQuery("Zadanie.getByName").setParameter("name", name).getResultList();
     }
+
+    @Override
+    public List<Zadanie> findByIdProject(int id) {
+        return entityManager.createNamedQuery("Zadanie.getZadanieByIdProject").setParameter("id", id).getResultList();
+    }
 }

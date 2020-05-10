@@ -1,8 +1,8 @@
 package com.project.model;
 
 import javax.persistence.*;
+import java.util.Date;
 
-import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
@@ -11,6 +11,7 @@ import org.hibernate.annotations.CreationTimestamp;
         @NamedQuery(name = "Zadanie.getByName", query = "SELECT z FROM Zadanie z WHERE z.nazwa =:name"),
         @NamedQuery(name = "Zadanie.getAll", query = "SELECT z FROM Zadanie z"),
         @NamedQuery(name = "Zadanie.getZadanieById", query = "SELECT z FROM Zadanie z WHERE z.zadanieId =:id"),
+        @NamedQuery(name = "Zadanie.getZadanieByIdProject", query = "SELECT z FROM Zadanie z WHERE z.projekt.projektId =:id"),
 })
 public class Zadanie {
 
@@ -34,7 +35,7 @@ public class Zadanie {
 
     @CreationTimestamp
     @Column(name = "dataczas_dodania", nullable = false, updatable = false)
-    private LocalDateTime dataczasDodania;
+    private Date dataczasDodania;
 
     public Integer getZadanieId() {
         return zadanieId;
@@ -76,11 +77,11 @@ public class Zadanie {
         this.opis = opis;
     }
 
-    public LocalDateTime getDataczasDodania() {
+    public Date getDataczasDodania() {
         return dataczasDodania;
     }
 
-    public void setDataczasDodania(LocalDateTime dataczasDodania) {
+    public void setDataczasDodania(Date dataczasDodania) {
         this.dataczasDodania = dataczasDodania;
     }
 }

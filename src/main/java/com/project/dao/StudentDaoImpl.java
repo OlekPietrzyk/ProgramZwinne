@@ -18,7 +18,7 @@ public class StudentDaoImpl implements StudentDao<Student, Integer>{
     @Override
     public Student findById(int id) {
         List resultList = entityManager.createNamedQuery("Student.getStudentById").setParameter("id", id).getResultList();
-        return resultList!=null ? (Student) resultList.get(0) : null;
+        return !resultList.isEmpty() ? (Student) resultList.get(0) : null;
     }
 
     @Override

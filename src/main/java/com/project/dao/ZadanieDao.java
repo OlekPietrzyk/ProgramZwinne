@@ -8,4 +8,5 @@ public interface ZadanieDao <T extends Zadanie, Id extends Serializable> extends
 
     public List<T> findByName(String name);
 
+    public List<T> findByIdProject(int id);
 }
