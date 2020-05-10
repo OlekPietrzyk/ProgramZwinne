@@ -10,6 +10,11 @@ import java.util.Set;
 
 @Entity
 @Table (name = "project")
+@NamedQueries({
+        @NamedQuery(name = "Projekt.getByName", query = "SELECT p FROM Projekt p WHERE p.nazwa =:name"),
+        @NamedQuery(name = "Projekt.getAll", query = "SELECT p FROM Projekt p"),
+        @NamedQuery(name = "Projekt.getProjektById", query = "SELECT p FROM Projekt p WHERE p.projektId =:id"),
+})
 public class Projekt {
 
     @Id

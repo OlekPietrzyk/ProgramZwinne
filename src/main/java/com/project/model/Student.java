@@ -4,6 +4,10 @@ import java.util.Set;
 
 @Entity
 @Table(name="student")
+@NamedQueries({
+        @NamedQuery(name = "Student.getAll", query = "SELECT s FROM Student s"),
+        @NamedQuery(name = "Student.getStudentById", query = "SELECT s FROM Student s WHERE s.studentId =:id"),
+})
 public class Student {
 
     @Id

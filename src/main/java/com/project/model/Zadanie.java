@@ -7,6 +7,11 @@ import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name="zadanie")
+@NamedQueries({
+        @NamedQuery(name = "Zadanie.getByName", query = "SELECT z FROM Zadanie z WHERE z.nazwa =:name"),
+        @NamedQuery(name = "Zadanie.getAll", query = "SELECT z FROM Zadanie z"),
+        @NamedQuery(name = "Zadanie.getZadanieById", query = "SELECT z FROM Zadanie z WHERE z.zadanieId =:id"),
+})
 public class Zadanie {
 
     @Id
