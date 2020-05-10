@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="fragments/header :: header"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/datatable/datatables.min.css}"/>
+    <script type="text/javascript" th:src="@{/static/js/datatable/datatables.min.js}"></script>
+
+
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/viewStyle.css}"/>
+    <script type="text/javascript" th:src="@{/static/js/projectViewDataTable.js}"></script>
+</head>
+
+
+<body>
+<div th:replace="fragments/header :: body"/>
+
+
+<div class="contentBox">
+    <div class="layer">
+        <div class="container">
+            <div class="white-panel">
+                <div class="margins">
+                    <ul style="padding-top: 1cm"></ul>
+
+                    <div th:if="${param.modify}">
+                        <div class="alert alert-info">
+                            Poprawnie zmodyfikowano projekt.
+                        </div>
+                    </div>
+
+                    <div th:if="${param.create}">
+                        <div class="alert alert-info">
+                            Poprawnie utworzono nowy projekt.
+                        </div>
+                    </div>
+
+                    <div th:if="${param.remove}">
+                        <div class="alert alert-info">
+                            Poprawnie usunięto projekt.
+                        </div>
+                    </div>
+
+                    <div class="table-title">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <h2 class="mt-5">Lista projektów</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <table id="myTable" class="table table-hover table-sm">
+                        <thead>
+                        <tr>
+                            <th class="col-1" scope="col">Id</th>
+                            <th class="col-2" scope="col">Nazwa</th>
+                            <th class="col-3" scope="col">Opis</th>
+                            <th class="col-2" scope="col">Data utworzenia</th>
+                            <th class="col-2" scope="col">Data oddania</th>
+                            <th class="col-2" scope="col"></th>
+
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr th:each="project: ${projects}">
+                            <td class="col-1" th:text="${project.projektId}">1</td>
+                            <td class="col-2" th:text="${project.nazwa}">2</td>
+                            <td class="col-3" th:text="${project.opis}">3</td>
+                            <td class="col-2" th:text="${project.dataczasUtworzenia != null ? #dates.format(project.dataczasUtworzenia, 'dd-MM-yyyy') : 'Brak informacji'}">4</td>
+                            <td class="col-2" th:text="${project.dataOddania != null ? #dates.format(project.dataOddania, 'dd-MM-yyyy') : 'Brak informacji'}">1</td>
+                            <td class="col-2">
+
+                                <a th:href="@{'/viewTask'}" class="edit" title="Zadania" data-toggle="tooltip"><i class="material-icons">work</i></a>
+                                <a th:href="@{'/addProject/' + ${project.projektId}}" class="edit" title="Edycja" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                                <a th:href="@{'/deleteProject/' + ${project.projektId}}" class="edit" title="Usuń" data-toggle="tooltip"><i class="material-icons">delete</i></a>
+
+                            </td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+                    <a  th:href="@{'/addProject'}" class="btn btn-primary buttonExport"><i class="material-icons">&#xE24D;</i> <span>Dodaj projekt</span></a>
+
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+</body>
+
+</html>

@@ -5,6 +5,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -30,15 +31,14 @@ public class Projekt {
 
     @CreationTimestamp
     @Column(name = "dataczas_utworzenia", nullable = false, updatable = false)
-    private LocalDateTime dataczasUtworzenia;
+    private Date dataczasUtworzenia;
 
-    @CreationTimestamp
-    @Column (name = "data_oddania", nullable = false, updatable =false)
-    private LocalDateTime dataOddania;
+    @Column (name = "data_oddania", nullable = false, updatable = false)
+    private Date dataOddania;
 
     @UpdateTimestamp
     @Column(name = "dataczas_modyfikacji", nullable = false)
-    private LocalDateTime dataCzasModyfikacji;
+    private Date dataCzasModyfikacji;
 
     @OneToMany(mappedBy = "projekt")
     private List<Zadanie> zadania;
@@ -74,28 +74,8 @@ public class Projekt {
         this.opis = opis;
     }
 
-    public LocalDateTime getDataczasUtworzenia() {
+    public Date getDataczasUtworzenia() {
         return dataczasUtworzenia;
-    }
-
-    public void setDataczasUtworzenia(LocalDateTime dataczasUtworzenia) {
-        this.dataczasUtworzenia = dataczasUtworzenia;
-    }
-
-    public LocalDateTime getDataOddania() {
-        return dataOddania;
-    }
-
-    public void setDataOddania(LocalDateTime dataOddania) {
-        this.dataOddania = dataOddania;
-    }
-
-    public LocalDateTime getDataCzasModyfikacji() {
-        return dataCzasModyfikacji;
-    }
-
-    public void setDataCzasModyfikacji(LocalDateTime dataCzasModyfikacji) {
-        this.dataCzasModyfikacji = dataCzasModyfikacji;
     }
 
     public List<Zadanie> getZadania() {
@@ -112,6 +92,26 @@ public class Projekt {
 
     public void setStudenci(Set<Student> studenci) {
         this.studenci = studenci;
+    }
+
+    public void setDataczasUtworzenia(Date dataczasUtworzenia) {
+        this.dataczasUtworzenia = dataczasUtworzenia;
+    }
+
+    public Date getDataOddania() {
+        return dataOddania;
+    }
+
+    public void setDataOddania(Date dataOddania) {
+        this.dataOddania = dataOddania;
+    }
+
+    public Date getDataCzasModyfikacji() {
+        return dataCzasModyfikacji;
+    }
+
+    public void setDataCzasModyfikacji(Date dataCzasModyfikacji) {
+        this.dataCzasModyfikacji = dataCzasModyfikacji;
     }
 }
 

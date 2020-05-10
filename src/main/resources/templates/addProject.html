@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/header :: header"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/formStyle.css}"/>
+
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+</head>
+
+<script th:inline="javascript">
+    $(document).ready(function () {
+        var date_input = $('input[name="dataOddania"]'); //our date input has the name "date"
+        var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+        date_input.datepicker({
+            format: 'mm/dd/yyyy',
+            container: container,
+            todayHighlight: true,
+            autoclose: true,
+        })
+    })
+</script>
+
+<body>
+<div th:replace="fragments/header :: body"/>
+
+<div class="contentBox">
+    <div class="layer">
+        <div class="container">
+            <div class="white-panel">
+
+                <div class="bs-docs-section">
+                    <form th:action="@{/addProject}" th:object="${project}" method="post">
+
+                        <input type="hidden" th:field="*{projektId}"/>
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="page-header" th:if="*{projektId == null || projektId == ''}">
+                                    <h1 align="center" id="forms">Dodawanie projektu</h1>
+                                </div>
+                                <div class="page-header" th:if="*{projektId != null && projektId != ''}">
+                                    <h1 align="center" id="forms">Edycja projektu</h1>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+
+
+
+                        <div class="row">
+                            <div class="col-lg-7 offset-lg-1">
+
+                                <div>
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <label class="col-form-label" for="inputNazwa">Nazwa projektu:</label>
+                                        </div>
+                                        <div class="col-7">
+                                            <input type="text" th:field="*{nazwa}" class="form-control"
+                                                   id="inputNazwa"
+                                                   th:classappend="${#fields.hasErrors('nazwa')} ? 'is-invalid':''">
+                                        </div>
+                                    </div>
+                                    <p class="error-message"
+                                       th:each="error: ${#fields.errors('nazwa')}"
+                                       th:text="${error}">Validation error</p>
+                                </div>
+
+
+
+                                <div class="mt-3">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <label class="col-form-label" for="inputDescription">Opis:</label>
+                                        </div>
+                                        <div class="col-7">
+                                            <textarea class="form-control"  th:field="*{opis}" id="inputDescription" rows="3"
+                                                      th:classappend="${#fields.hasErrors('opis')} ? 'is-invalid':''"></textarea>
+                                        </div>
+                                    </div>
+                                    <p class="error-message"
+                                       th:each="error: ${#fields.errors('opis')}"
+                                       th:text="${error}">Validation error</p>
+                                </div>
+
+                                <div class="mt-3">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <label class="col-form-label">Wybierz datę oddania:</label>
+                                        </div>
+
+                                        <div class="col-7">
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar">
+                                                    </i>
+                                                </div>
+                                                <input class="form-control" id="date" th:field="*{dataOddania}" name="date"
+                                                       placeholder="MM/DD/YYYY"
+                                                       th:classappend="${#fields.hasErrors('dataOddania')} ? 'is-invalid':''"
+                                                       type="text"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <p class="error-message"
+                                       th:each="error: ${#fields.errors('dataOddania')}"
+                                       th:text="${error}">Validation error</p>
+                                </div>
+
+                                <div class="mt-4 mb-3" th:if="*{projektId == null || projektId == ''}">
+                                    <button type="submit" class="btn btn-primary mt-3 mb-5">Utwórz</button>
+                                </div>
+
+                                <div class="mt-4 mb-3" th:if="*{projektId != null && projektId != ''}">
+                                    <button type="submit" class="btn btn-primary mt-3 mb-5">Zapisz</button>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+</div>
+
+</body>
+
+</html>

@@ -84,4 +84,3 @@ public class Zadanie {
         this.dataczasDodania = dataczasDodania;
     }
 }
-

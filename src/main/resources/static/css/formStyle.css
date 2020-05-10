@@ -1,0 +1,22 @@
+.error-message {
+    color: #a94442;
+}
+
+body {
+    background-attachment: fixed;
+    height:100vh;
+    min-height:550px;
+    background-repeat: no-repeat;
+    background-size:cover;
+    position:relative;
+}
+
+.white-panel {
+
+    right: calc(50% - 50px);
+    transition: .3s ease-in-out;
+    z-index: 0;
+}
+
+h1 { margin-top: 2cm;
+    margin-bottom: 1cm;}
