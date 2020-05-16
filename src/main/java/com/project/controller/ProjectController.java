@@ -51,8 +51,6 @@ public class ProjectController {
                 return "redirect:/projectView/?create=true";
 
             } else {
-                projekt.setDataczasUtworzenia(projekt.getDataOddania());
-                projekt.setDataCzasModyfikacji(projekt.getDataOddania());
                 projectDao.merge(projekt);
                 logger.info("Edycja obiektu projekt o id: " + projekt.getProjektId());
                 return "redirect:/projectView/?modify=true";
