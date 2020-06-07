@@ -8,6 +8,11 @@
 <body>
 <div th:replace="fragments/header :: body"/>
 
+<div th:if="${param.registration}">
+    <div class="alert alert-info">
+        Poprawnie wykonałeś rejestrację. Czekaj na aktywację konta przez administratora.
+    </div>
+</div>
 
 </body>
 

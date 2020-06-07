@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/header :: header"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/formStyle.css}"/>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+
+</head>
+
+
+<body>
+<div th:replace="fragments/header :: body"/>
+
+<div class="contentBox">
+    <div class="layer">
+        <div class="container">
+
+            <div class="bs-docs-section">
+                <div class="white-panel">
+                    <ul style="padding-top: 1cm"></ul>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="page-header">
+                                <h1 align="center" id="forms">Rejestracja</h1>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4 offset-lg-1">
+                            <form th:action="@{/registration}" th:object="${registrationForm}" method="post">
+                                <div>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <label class="col-form-label" for="inputName">Imię: </label>
+                                        </div>
+                                        <div class="col-9">
+                                            <input type="text" th:field="*{name}" class="form-control"
+                                                   id="inputName" placeholder="np. Marek"
+                                                   th:classappend="${#fields.hasErrors('name')} ? 'is-invalid':''">
+                                        </div>
+                                    </div>
+                                    <p class="error-message"
+                                       th:each="error: ${#fields.errors('name')}"
+                                       th:text="${error}">Validation error</p>
+                                </div>
+
+                                <div class="mt-3">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <label class="col-form-label" for="inputSurname">Nazwisko: </label>
+                                        </div>
+                                        <div class="col-9">
+                                            <input type="text" th:field="*{surname}"
+                                                   class="form-control"
+                                                   id="inputSurname" placeholder="np. Nowak"
+                                                   th:classappend="${#fields.hasErrors('surname')} ? 'is-invalid':''">
+                                        </div>
+                                    </div>
+                                    <p class="error-message"
+                                       th:each="error: ${#fields.errors('surname')}"
+                                       th:text="${error}">Validation error</p>
+                                </div>
+
+
+                                <div class="mt-3">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <label class="col-form-label" for="inputemailRegister">Adres e-mail: </label>
+                                        </div>
+                                        <div class="col-7">
+                                            <input type="text" th:field="*{email}" class="form-control"
+                                                   id="inputemailRegister" placeholder="np. nazwa@gmail.com"
+                                                   th:classappend="${#fields.hasErrors('email')} ? 'is-invalid':''">
+                                        </div>
+                                    </div>
+                                    <p class="error-message"
+                                       th:each="error: ${#fields.errors('email')}"
+                                       th:text="${error}">Validation error</p>
+                                </div>
+
+                                <div class="mt-3">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <label class="col-form-label" >Typ użytkownika:</label>
+                                        </div>
+
+                                        <div class="col-7" >
+                                            <select id="choose" class="custom-select" th:field="*{role}" th:classappend="${#fields.hasErrors('role')} ? 'is-invalid':''">
+                                                <option value="">Wybierz typ użytkownika</option>
+                                                <option value="LECTURER">Wykładowca</option>
+                                                <option value="STUDENT">Student</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                    <p class="error-message"
+                                       th:each="error: ${#fields.errors('role')}"
+                                       th:text="${error}">Validation error</p>
+                                </div>
+
+
+                                <div class="mt-3">
+                                    <div class="row">
+                                        <div class="col-5" id="nrPracownika">
+                                        <label class="col-form-label">Numer pracownika:</label>
+                                        </div>
+                                        <div class="col-5" id="nrIndeksu">
+                                            <label class="col-form-label">Numer indeksu:</label>
+                                        </div>
+                                        <div class="col-7">
+                                            <input  type="text" th:field="*{nr}" class="form-control"
+                                                    id="inputNr"
+                                                    th:classappend="${#fields.hasErrors('nr')} ? 'is-invalid':''">
+                                        </div>
+                                    </div>
+                                    <p class="error-message"
+                                       th:each="error: ${#fields.errors('nr')}"
+                                       th:text="${error}">Validation error</p>
+
+                                </div>
+
+
+
+
+
+
+                                <div class="mt-3">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <label class="col-form-label" for="inputPasswordRegister">Hasło: </label>
+                                        </div>
+                                        <div class="col-7">
+                                            <input type="password" th:field="*{password}" class="form-control"
+                                                   id="inputPasswordRegister"
+                                                   th:classappend="${#fields.hasErrors('password')} ? 'is-invalid':''">
+                                        </div>
+                                    </div>
+                                    <p class="error-message"
+                                       th:each="error: ${#fields.errors('password')}"
+                                       th:text="${error}">Validation error</p>
+                                </div>
+                                <div class="mt-3">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <label class="col-form-label" for="inputRePassword">Powtórz hasło: </label>
+                                        </div>
+                                        <div class="col-7">
+                                            <input type="password" th:field="*{rePassword}" class="form-control"
+                                                   id="inputRePassword"
+                                                   th:classappend="${#fields.hasErrors('rePassword')} ? 'is-invalid':''">
+                                        </div>
+                                    </div>
+                                    <p class="error-message"
+                                       th:each="error: ${#fields.errors('rePassword')}"
+                                       th:text="${error}">Validation error</p>
+
+                                    <p class="error-message"
+                                       th:each="error: ${#fields.errors('global')}"
+                                       th:text="${error}">Validation error</p>
+
+                                </div>
+
+
+                                <div class="form-check mt-3">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input"  th:field="*{acceptRegulation}" id="acceptRegulation" checked="">
+                                        <label class="custom-control-label" for="acceptRegulation">  Oświadczam, iż zapoznałem się z treścią regulaminu przetwarzania danych
+                                            osobowych RODO.</label>
+                                    </div>
+                                </div>
+
+                                <p class="error-message"
+                                   th:each="error: ${#fields.errors('acceptRegulation')}"
+                                   th:text="${error}">Validation error</p>
+                                <button type="submit" class="btn btn-primary mt-3 mb-5">Zarejestruj</button>
+                            </form>
+
+
+                        </div>
+
+
+                        <div class="col-lg-5 offset-lg-1">
+                            <form class="bs-component" style="font-size: 11pt">
+
+                                <p>1. Administratorem danych osobowych jest</p>
+
+                                <p>2. Administrator wyznaczył inspektora ochrony danych osobowych. Dane kontaktowe
+                                    inspektora:</p>
+
+                                <p>3. Przekazane dane osobowe przetwarzane będą w celu realizacji usług, obsługi
+                                    zgłoszeń i udzielania odpowiedzi na zgłoszenia;</p>
+
+                                <p>4. Kategorie danych osobowych obejmują m.in. imię i nazwisko, numer telefonu, adres
+                                    e-mail, adres, dane dedykowane do procesu/usługi/projektu;</p>
+
+                                <p>5. Pani / Pana dane osobowe mogą być przekazywane podmiotom przetwarzającym dane
+                                    osobowe na zlecenie administratora: dostawcy usług IT;</p>
+
+                                <p>6. Państwa dane osobowe będą przechowywane przez okres istnienia prawnie
+                                    uzasadnionego interesu administratora, chyba że Pani / Pan wyrazi sprzeciw wobec
+                                    przetwarzania danych;</p>
+
+                                <p>7. Państwa dane nie będą przekazywane do państwa trzeciego ani organizacji
+                                    międzynarodowej;</p>
+
+                                <p>8. Posiadają Państwo prawo dostępu do treści swoich danych oraz prawo ich
+                                    sprostowania, usunięcia, ograniczenia przetwarzania, prawo do przenoszenia danych,
+                                    prawo wniesienia sprzeciwu, prawo do cofnięcia zgody w dowolnym momencie bez wpływu
+                                    na zgodność z prawem przetwarzania, którego dokonano na podstawie zgody przed jej
+                                    cofnięciem;</p>
+
+                                <p>9. Mają Państwo prawo wniesienia skargi do organu nadzorczego zajmującego się ochroną
+                                    danych osobowych, którym jest Prezes Urzędu Ochrony Danych Osobowych, gdy uznają
+                                    Państwo, iż przetwarzanie Państwa danych osobowych narusza przepisy ustawy z dnia 10
+                                    maja 2018 r. o ochronie danych osobowych (tekst jednolity Dz. U. z 2018 r., poz.
+                                    1000) lub przepisy Rozporządzenia Parlamentu Europejskiego i Rady (UE) 2016/679 z
+                                    dnia 27 kwietnia 2016 r. w sprawie ochrony osób fizycznych w związku z
+                                    przetwarzaniem danych osobowych i w sprawie swobodnego przepływu takich danych oraz
+                                    uchylenia dyrektywy 95/46/WE (ogólne rozporządzenie o ochronie danych) z dnia 27
+                                    kwietnia 2016 r. (Dz.Urz.UE.L Nr 119, str. 1);</p>
+
+                                <p>10. Dane udostępnione przez Panią/Pana nie będą podlegały zautomatyzowanemu
+                                    podejmowaniu decyzji oraz profilowaniu;</p>
+
+                                <p>11. Dane pochodzą od osób, których dane dotyczą;</p>
+
+                                <p>12. Podanie przez Państwa danych osobowych jest dobrowolne;</p>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+
+
+<script>
+    $("#choose").on("change", function(){
+        if ($(this).val() === "LECTURER") {
+            $("#nrIndeksu").hide();
+            $("#nrPracownika").show();
+            // $("#inputNrIndeksu").val("");
+            // $("#inputNrPracownika").val("");
+            // $("#inputNrIndeksu").prop('disabled',true);
+            // $("#inputNrPracownika").prop('disabled', false);
+        } else {
+            $("#nrIndeksu").show();
+            $("#nrPracownika").hide();
+            // $("#inputNrPracownika").val("");
+            // $("#inputNrIndeksu").val("");
+            // $("#inputNrIndeksu").prop('disabled',false);
+            // $("#inputNrPracownika").prop('disabled',true);
+        }
+    });
+
+    $( document ).ready(function() {
+        if ($(this).val() === "LECTURER") {
+            $("#nrIndeksu").hide();
+            $("#nrPracownika").show();
+            // $("#inputNrIndeksu").val("");
+            // $("#inputNrPracownika").val("");
+            // $("#inputNrIndeksu").prop('disabled',true);
+            // $("#inputNrPracownika").prop('disabled', false);
+        } else {
+            $("#nrIndeksu").show();
+            $("#nrPracownika").hide();
+            // $("#inputNrPracownika").val("");
+            // $("#inputNrIndeksu").val("");
+            // $("#inputNrIndeksu").prop('disabled',false);
+            // $("#inputNrPracownika").prop('disabled',true);
+        }
+    });
+
+
+</script>
+
+
+</body>
+
+</html>

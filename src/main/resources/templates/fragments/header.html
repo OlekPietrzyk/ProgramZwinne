@@ -23,7 +23,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
     
-            <a class="navbar-brand" th:href="@{/}">Programowanie zwinne</a>
+            <a class="navbar-brand" th:href="@{/}">Zarządzanie projektami</a>
             <button class="navbar-toggler" type="button" > data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -38,6 +38,15 @@
                     </li>
                 </ul>
             </div>
+
+
+            <div th:if="${user == 'ROLE_ANONYMOUS'}">
+                <a th:href="@{/login}" class="btn btn-secondary">Zaloguj</a>
+            </div>
+            <div th:if="${user != 'ROLE_ANONYMOUS'}">
+                <a th:href="@{/logout}" class="btn btn-secondary">Wyloguj</a>
+            </div>
+
         </div>
     </nav>
 
