@@ -53,4 +53,10 @@ public class PersonDaoImpl implements PersonDao<Person, Integer> {
         }
         return null;
     }
+
+    @Override
+    public List<Person> findAllByActive(Boolean active) {
+       return entityManager.createNamedQuery("Person.getPersonByActive").setParameter("active", active).getResultList();
+    }
+
 }

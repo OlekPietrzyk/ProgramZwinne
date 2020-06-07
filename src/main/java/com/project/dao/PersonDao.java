@@ -16,4 +16,6 @@ public interface PersonDao<T, Id extends Serializable> {
     public List<T> findAll();
 
     public T findAllByEmail(String email);
+
+    public List<T> findAllByActive(Boolean active);
 }

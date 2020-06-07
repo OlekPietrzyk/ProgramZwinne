@@ -37,4 +37,8 @@ public class PersonService {
         personDao.remove(person);
     }
 
+    public List findAllByActive(Boolean active) {
+        return personDao.findAllByActive(active);
+    }
+
 }

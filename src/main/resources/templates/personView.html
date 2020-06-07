@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="fragments/header :: header"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/datatable/datatables.min.css}"/>
+    <script type="text/javascript" th:src="@{/static/js/datatable/datatables.min.js}"></script>
+
+
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/viewStyle.css}"/>
+    <script type="text/javascript" th:src="@{/static/js/personViewDataTable.js}"></script>
+</head>
+
+
+<body>
+<div th:replace="fragments/header :: body"/>
+
+
+<div class="contentBox">
+    <div class="layer">
+        <div class="container">
+            <div class="white-panel">
+                <div class="margins">
+                    <ul style="padding-top: 1cm"></ul>
+
+                    <div th:if="${param.accept}">
+                        <div class="alert alert-info">
+                            Poprawnie aktywowano użytkownika
+                        </div>
+                    </div>
+
+                    </div>
+
+                    <div class="table-title">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <h2 class="mt-5">Lista użytkowników do akceptacji</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <table id="myTable" class="table table-hover table-sm">
+                        <thead>
+                        <tr>
+                            <th class="col-2" scope="col">Imię</th>
+                            <th class="col-3" scope="col">Nazwisko</th>
+                            <th class="col-2" scope="col">Email</th>
+                            <th class="col-2" scope="col">Rola</th>
+                            <th class="col-2" scope="col"></th>
+
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr th:each="person: ${persons}">
+                            <td class="col-1" th:text="${person.imie}">1</td>
+                            <td class="col-2" th:text="${person.nazwisko}">2</td>
+                            <td class="col-3" th:text="${person.email}">3</td>
+                            <td class="col-3" th:text="${person.role == 'LECTURER' ? 'Wykładowca' : 'Student'}">3</td>
+
+                            <td class="col-2">
+                                <a  th:href="@{'/lecturer/acceptPerson/' + ${person.id}}" class="edit" title="Aktywuj"
+                                   data-toggle="tooltip"><i class="material-icons">&#xe147;</i></a>
+                            </td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+</body>
+
+</html>
