@@ -4,7 +4,9 @@ import com.project.dto.RegistrationForm;
 import com.project.model.Lecturer;
 import com.project.model.Person;
 import com.project.model.Student;
+import com.project.service.LecturerService;
 import com.project.service.PersonService;
+import com.project.service.StudentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
-import java.util.Date;
 import java.util.stream.Collectors;
 
 @Controller
@@ -29,6 +30,12 @@ public class RegistrationController {
 
     @Autowired
     private PersonService personService;
+
+    @Autowired
+    private StudentService studentService;
+
+    @Autowired
+    private LecturerService lecturerService;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -70,20 +77,24 @@ public class RegistrationController {
             person.setImie(registrationForm.getName());
             person.setNazwisko(registrationForm.getSurname());
 
+            personService.save(person);
+
             if (registrationForm.getRole().equals("LECTURER")) {
                 Lecturer lecturer = new Lecturer();
                 lecturer.setNrPracownika(registrationForm.getNr());
                 lecturer.setPerson(person);
 
+                lecturerService.save(lecturer);
 
             } else {
                 Student student = new Student();
                 student.setNrIndeksu(registrationForm.getNr());
                 student.setPerson(person);
+                student.setStacjonarny(registrationForm.getType().equals("true"));
 
+                studentService.save(student);
             }
 
-            personService.save(person);
 
             logger.info("Poprawnie zarejestrował się użytkownik o adresie email: {}", registrationForm.getEmail());
             return "redirect:/?registration=true";

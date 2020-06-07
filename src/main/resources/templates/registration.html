@@ -121,7 +121,25 @@
 
                                 </div>
 
+                                <div class="mt-3" id="type">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <label class="col-form-label" >Typ studiów:</label>
+                                        </div>
 
+                                        <div class="col-7" >
+                                            <select id="chooseType" class="custom-select" th:field="*{type}" th:classappend="${#fields.hasErrors('type')} ? 'is-invalid':''">
+                                                <option value="">Wybierz typ studiów</option>
+                                                <option value="true">Stacjonarne</option>
+                                                <option value="false">Niestacjonarne</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                    <p class="error-message"
+                                       th:each="error: ${#fields.errors('type')}"
+                                       th:text="${error}">Validation error</p>
+                                </div>
 
 
 
@@ -246,6 +264,7 @@
     $("#choose").on("change", function(){
         if ($(this).val() === "LECTURER") {
             $("#nrIndeksu").hide();
+            $("#type").hide();
             $("#nrPracownika").show();
             // $("#inputNrIndeksu").val("");
             // $("#inputNrPracownika").val("");
@@ -253,6 +272,7 @@
             // $("#inputNrPracownika").prop('disabled', false);
         } else {
             $("#nrIndeksu").show();
+            $("#type").show();
             $("#nrPracownika").hide();
             // $("#inputNrPracownika").val("");
             // $("#inputNrIndeksu").val("");
@@ -264,6 +284,7 @@
     $( document ).ready(function() {
         if ($(this).val() === "LECTURER") {
             $("#nrIndeksu").hide();
+            $("#type").hide();
             $("#nrPracownika").show();
             // $("#inputNrIndeksu").val("");
             // $("#inputNrPracownika").val("");
@@ -271,6 +292,7 @@
             // $("#inputNrPracownika").prop('disabled', false);
         } else {
             $("#nrIndeksu").show();
+            $("#type").show();
             $("#nrPracownika").hide();
             // $("#inputNrPracownika").val("");
             // $("#inputNrIndeksu").val("");

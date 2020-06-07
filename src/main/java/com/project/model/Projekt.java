@@ -40,7 +40,7 @@ public class Projekt {
     @Column(name = "dataczas_modyfikacji", nullable = false)
     private Date dataCzasModyfikacji;
 
-    @OneToMany(mappedBy = "projekt")
+    @OneToMany(mappedBy = "projekt", cascade = CascadeType.ALL)
     private List<Zadanie> zadania;
 
     @ManyToMany

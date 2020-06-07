@@ -27,17 +27,23 @@
             <button class="navbar-toggler" type="button" > data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-    
-            <div class="collapse navbar-collapse" id="navbarColor01">
+
+            <div class="collapse navbar-collapse" id="navbarColor01" >
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                    <a class="nav-link" th:href="@{/addProject}">Dodaj projekt</a>
-                </li>
-                    <li class="nav-item">
+
+                    <li class="nav-item" th:if="${user == 'LECTURER'}">
+                        <a class="nav-link" th:href="@{/lecturer/addProject}">Dodaj projekt</a>
+                    </li>
+
+                    <li class="nav-item"  th:if="${user == 'LECTURER' || user == 'STUDENT'}">
                         <a class="nav-link" th:href="@{/projectView}">Lista projektów</a>
                     </li>
+
                 </ul>
+
             </div>
+
+
 
 
             <div th:if="${user == 'ROLE_ANONYMOUS'}">

@@ -5,6 +5,8 @@ import com.project.model.Projekt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,10 +14,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Controller
-@RequestMapping({"/addProject","/addProject/{id}"})
+@RequestMapping({"/lecturer/addProject","/lecturer/addProject/{id}"})
 public class ProjectController {
 
     @Autowired
@@ -34,12 +37,22 @@ public class ProjectController {
 
     @GetMapping
     public String showProjectForm(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String role= authentication.getAuthorities().stream()
+                .map(r -> r.getAuthority()).collect(Collectors.toSet()).iterator().next();
+        model.addAttribute("user", role);
+
         return "addProject";
     }
 
     @PostMapping
     public String handleProjectForm(Model model, @ModelAttribute("project") @Valid Projekt projekt,
                                          BindingResult result){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String role= authentication.getAuthorities().stream()
+                .map(r -> r.getAuthority()).collect(Collectors.toSet()).iterator().next();
+        model.addAttribute("user", role);
 
         if (result.hasErrors()){
             return "addProject";

@@ -35,7 +35,8 @@ public class RegistrationForm {
     @Size(max = 50, message = "{Size.20}")
     private String nr;
 
-    private boolean stacjonarny;
+    @NotEmpty(message = "{Registration.type.notEmpty}")
+    private String type;
 
     @NotEmpty(message="{Registration.password.notEmpty}")
     @Size(max=20, message = "{Registration.password.size}")
@@ -112,12 +113,11 @@ public class RegistrationForm {
         this.role = role;
     }
 
-
-    public boolean isStacjonarny() {
-        return stacjonarny;
+    public String getType() {
+        return type;
     }
 
-    public void setStacjonarny(boolean stacjonarny) {
-        this.stacjonarny = stacjonarny;
+    public void setType(String type) {
+        this.type = type;
     }
 }

@@ -7,6 +7,8 @@ import com.project.model.Zadanie;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,9 +16,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping({"/addTask/{idProject}","/addTask/{idProject}/{id}"})
+@RequestMapping({"/lecturer/addTask/{idProject}","/lecturer/addTask/{idProject}/{id}"})
 public class TaskController {
 
     @Autowired
@@ -40,6 +43,11 @@ public class TaskController {
     @GetMapping
     public String showProjectForm(Model model, @PathVariable("idProject") Optional<String> idProject) {
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String role= authentication.getAuthorities().stream()
+                .map(r -> r.getAuthority()).collect(Collectors.toSet()).iterator().next();
+        model.addAttribute("user", role);
+
         model.addAttribute("idProject", idProject.get());
         return "addTask";
     }
@@ -47,6 +55,11 @@ public class TaskController {
     @PostMapping
     public String handleProjectForm(Model model, @PathVariable("idProject") Optional<String> idProject, @ModelAttribute("task") @Valid Zadanie zadanie,
                                     BindingResult result){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String role= authentication.getAuthorities().stream()
+                .map(r -> r.getAuthority()).collect(Collectors.toSet()).iterator().next();
+        model.addAttribute("user", role);
 
         if (result.hasErrors()){
             return "addTask";
