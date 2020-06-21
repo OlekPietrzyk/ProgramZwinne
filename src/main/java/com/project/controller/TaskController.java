@@ -19,7 +19,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping({"/lecturer/addTask/{idProject}","/lecturer/addTask/{idProject}/{id}"})
+@RequestMapping({"/lecturer/addTask/{idProject}","/lecturer/addTask/{idProject}/{id}","/student/addTask/{idProject}","/student/addTask/{idProject}/{id}"})
 public class TaskController {
 
     @Autowired

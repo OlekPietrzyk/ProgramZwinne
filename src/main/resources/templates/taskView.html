@@ -85,6 +85,10 @@
                         <a  th:href="@{'/lecturer/addTask/' + ${idProject}}" class="btn btn-primary buttonExport"><i class="material-icons">&#xE24D;</i> <span>Dodaj zadanie</span></a>
                     </div>
 
+                    <div th:if="${user == 'STUDENT'}">
+                        <a  th:href="@{'/student/addTask/' + ${idProject}}" class="btn btn-primary buttonExport"><i class="material-icons">&#xE24D;</i> <span>Dodaj zadanie</span></a>
+                    </div>
+
                 </div>
 
             </div>

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -39,5 +40,15 @@ public class StudentDaoImpl implements StudentDao<Student, Integer>{
     @Override
     public void merge(Object entity) {
         entityManager.merge(entity);
+    }
+
+    @Override
+    public List<Student> findByIds(List<Integer> ids) {
+        if (ids.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        List resultList = entityManager.createNamedQuery("Student.getStudentByIds").setParameter("ids", ids).getResultList();
+        return resultList;
     }
 }

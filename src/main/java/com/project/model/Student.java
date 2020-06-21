@@ -7,6 +7,7 @@ import java.util.Set;
 @NamedQueries({
         @NamedQuery(name = "Student.getAll", query = "SELECT s FROM Student s"),
         @NamedQuery(name = "Student.getStudentById", query = "SELECT s FROM Student s WHERE s.studentId =:id"),
+        @NamedQuery(name = "Student.getStudentByIds", query = "SELECT s FROM Student s WHERE s.studentId IN :ids"),
 })
 public class Student {
 

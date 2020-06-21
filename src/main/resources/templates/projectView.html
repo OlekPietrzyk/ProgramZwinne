@@ -43,6 +43,12 @@
                         </div>
                     </div>
 
+                    <div th:if="${param.saveUser}">
+                        <div class="alert alert-info">
+                            Poprawnie przypisałeś studentów do projektu.
+                        </div>
+                    </div>
+
                     <div class="table-title">
                         <div class="row">
                             <div class="col-sm-5">
@@ -68,15 +74,27 @@
                             <td class="col-1" th:text="${project.projektId}">1</td>
                             <td class="col-2" th:text="${project.nazwa}">2</td>
                             <td class="col-3" th:text="${project.opis}">3</td>
-                            <td class="col-2" th:text="${project.dataczasUtworzenia != null ? #dates.format(project.dataczasUtworzenia, 'dd-MM-yyyy') : 'Brak informacji'}">4</td>
-                            <td class="col-2" th:text="${project.dataOddania != null ? #dates.format(project.dataOddania, 'dd-MM-yyyy') : 'Brak informacji'}">1</td>
+                            <td class="col-2"
+                                th:text="${project.dataczasUtworzenia != null ? #dates.format(project.dataczasUtworzenia, 'dd-MM-yyyy') : 'Brak informacji'}">
+                                4
+                            </td>
+                            <td class="col-2"
+                                th:text="${project.dataOddania != null ? #dates.format(project.dataOddania, 'dd-MM-yyyy') : 'Brak informacji'}">
+                                1
+                            </td>
                             <td class="col-2" th:if="${user == 'STUDENT'}">
-                                <a th:href="@{'/taskView/' + ${project.projektId}}" class="edit" title="Zadania" data-toggle="tooltip"><i class="material-icons">work</i></a>
+                                <a th:href="@{'/taskView/' + ${project.projektId}}" class="edit" title="Zadania"
+                                   data-toggle="tooltip"><i class="material-icons">work</i></a>
                             </td>
                             <td class="col-2" th:if="${user == 'LECTURER'}">
-                                <a th:href="@{'/taskView/' + ${project.projektId}}" class="edit" title="Zadania" data-toggle="tooltip"><i class="material-icons">work</i></a>
-                                <a th:href="@{'/lecturer/addProject/' + ${project.projektId}}" class="edit" title="Edycja" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                                <a th:href="@{'/lecturer/deleteProject/' + ${project.projektId}}" class="edit" title="Usuń" data-toggle="tooltip"><i class="material-icons">delete</i></a>
+                                <a th:href="@{'/taskView/' + ${project.projektId}}" class="edit" title="Zadania"
+                                   data-toggle="tooltip"><i class="material-icons">work</i></a>
+                                <a th:href="@{'/lecturer/addProject/' + ${project.projektId}}" class="edit"
+                                   title="Edycja" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                                <a th:href="@{'/lecturer/deleteProject/' + ${project.projektId}}" class="edit"
+                                   title="Usuń" data-toggle="tooltip"><i class="material-icons">delete</i></a>
+                                <a th:href="@{'/lecturer/viewStudent/' + ${project.projektId}}" class="edit"
+                                   title="Studenci" data-toggle="tooltip"><i class="material-icons">group</i></a>
 
                             </td>
 
@@ -84,8 +102,9 @@
                         </tbody>
                     </table>
 
-                    <div  th:if="${user == 'LECTURER'}">
-                        <a  th:href="@{'/lecturer/addProject'}" class="btn btn-primary buttonExport"><i class="material-icons">&#xE24D;</i> <span>Dodaj projekt</span></a>
+                    <div th:if="${user == 'LECTURER'}">
+                        <a th:href="@{'/lecturer/addProject'}" class="btn btn-primary buttonExport"><i
+                                class="material-icons">&#xE24D;</i> <span>Dodaj projekt</span></a>
                     </div>
 
                 </div>

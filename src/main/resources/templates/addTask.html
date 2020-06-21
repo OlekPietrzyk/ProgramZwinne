@@ -19,7 +19,7 @@
             <div class="white-panel">
 
                 <div class="bs-docs-section">
-                    <form th:action="@{'/lecturer/addTask/' + ${idProject}}" th:object="${task}" method="post">
+                    <form th:action="@{'/' + ${user.toLowerCase()} + '/addTask/' + ${idProject}}" th:object="${task}" method="post">
 
                         <input type="hidden" th:field="*{zadanieId}"/>
 
