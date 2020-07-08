@@ -55,10 +55,10 @@
                         <tr>
                             <th class="col-1" scope="col">Id</th>
                             <th class="col-2" scope="col">Nazwa</th>
-                            <th class="col-4" scope="col">Opis</th>
+                            <th class="col-3" scope="col">Opis</th>
                             <th class="col-2" scope="col">Data utworzenia</th>
                             <th class="col-2" scope="col">Kolejność</th>
-                            <th class="col-1" scope="col" th:if="${user == 'LECTURER'}"></th>
+                            <th class="col-2" scope="col"></th>
 
                         </tr>
                         </thead>
@@ -67,13 +67,14 @@
                         <tr th:each="task: ${tasks}">
                             <td class="col-1" th:text="${task.zadanieId}">1</td>
                             <td class="col-2" th:text="${task.nazwa}">2</td>
-                            <td class="col-4" th:text="${task.opis}">3</td>
+                            <td class="col-3" th:text="${task.opis}">3</td>
                             <td class="col-2" th:text="${task.dataczasDodania != null ? #dates.format(task.dataczasDodania, 'dd-MM-yyyy') : 'Brak informacji'}">4</td>
                             <td class="col-2" th:text="${task.kolejnosc}">1</td>
-                            <td class="col-1" th:if="${user == 'LECTURER'}">
+                            <td class="col-2" >
 
-                                <a th:href="@{'/lecturer/addTask/' + ${idProject} + '/' + ${task.zadanieId}}" class="edit" title="Edycja" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                                <a th:href="@{'/lecturer/deleteTask/'+ ${idProject} + '/' + ${task.zadanieId}}" class="edit" title="Usuń" data-toggle="tooltip"><i class="material-icons">delete</i></a>
+                                <a th:href="@{'/' + ${user.toLowerCase()} + '/viewFiles/' + ${task.zadanieId}}" class="edit" title="Pliki" data-toggle="tooltip"><i class="material-icons">file_download</i></a>
+                                <a th:if="${user == 'LECTURER'}" th:href="@{'/lecturer/addTask/' + ${idProject} + '/' + ${task.zadanieId}}" class="edit" title="Edycja" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                                <a th:if="${user == 'LECTURER'}" th:href="@{'/lecturer/deleteTask/'+ ${idProject} + '/' + ${task.zadanieId}}" class="edit" title="Usuń" data-toggle="tooltip"><i class="material-icons">delete</i></a>
 
                             </td>
 

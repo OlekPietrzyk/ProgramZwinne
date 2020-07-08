@@ -1,10 +1,7 @@
 package com.project.model;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -29,14 +26,12 @@ public class Projekt {
     @Column (name = "opis" ,nullable = false, length = 1000)
     private String opis;
 
-    @CreationTimestamp
     @Column(name = "dataczas_utworzenia", nullable = false, updatable = false)
     private Date dataczasUtworzenia;
 
     @Column (name = "data_oddania", nullable = false)
     private Date dataOddania;
 
-    @UpdateTimestamp
     @Column(name = "dataczas_modyfikacji", nullable = false)
     private Date dataCzasModyfikacji;
 
@@ -113,6 +108,18 @@ public class Projekt {
     public void setDataCzasModyfikacji(Date dataCzasModyfikacji) {
         this.dataCzasModyfikacji = dataCzasModyfikacji;
     }
+
+    @PreUpdate
+    public void update() {
+        setDataCzasModyfikacji(Calendar.getInstance().getTime());
+    }
+
+    @PrePersist
+    public void persist() {
+        setDataczasUtworzenia(Calendar.getInstance().getTime());
+        setDataCzasModyfikacji(Calendar.getInstance().getTime());
+    }
+
 }
 
 

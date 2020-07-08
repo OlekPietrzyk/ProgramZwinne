@@ -1,7 +1,10 @@
 package com.project.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -24,6 +27,9 @@ public class Zadanie {
     @JoinColumn(name = "projekt_id")
     private Projekt projekt;
 
+    @OneToMany(mappedBy = "zadanie", cascade = CascadeType.ALL)
+    private List<DBFile> dBFiles;
+
     @Column(name = "nazwa", nullable = false, length = 50)
     private String nazwa;
 
@@ -33,7 +39,6 @@ public class Zadanie {
     @Column (name= "opis", nullable = false, length = 1000)
     private String opis;
 
-    @CreationTimestamp
     @Column(name = "dataczas_dodania", nullable = false, updatable = false)
     private Date dataczasDodania;
 
@@ -83,5 +88,18 @@ public class Zadanie {
 
     public void setDataczasDodania(Date dataczasDodania) {
         this.dataczasDodania = dataczasDodania;
+    }
+
+    public List<DBFile> getdBFiles() {
+        return dBFiles;
+    }
+
+    public void setdBFiles(List<DBFile> dBFiles) {
+        this.dBFiles = dBFiles;
+    }
+
+    @PrePersist
+    public void persist(){
+        setDataczasDodania(Calendar.getInstance().getTime());
     }
 }

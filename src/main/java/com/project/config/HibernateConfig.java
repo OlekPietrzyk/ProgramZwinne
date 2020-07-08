@@ -37,7 +37,7 @@ public class HibernateConfig {
         properties.put("hibernate.jdbc.lob.non_contextual_creation", true);
 
         properties.put("hibernate.hbm2ddl.auto","update");
-//       properties.put("hibernate.hbm2ddl.auto","create-drop");
+//        properties.put("hibernate.hbm2ddl.auto","create-drop");
 
         return properties;
     }
